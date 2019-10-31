@@ -1,4 +1,4 @@
-﻿![掠过效果](./city.gif)
+﻿![掠过效果](https://stonerao.github.io/three-city-pass/city.gif)
 
 ### 特效
 
