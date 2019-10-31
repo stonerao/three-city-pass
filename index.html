@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/three.js"></script>
+    <script src="./lib/tween.min.js"></script>
+    <script src="./lib/OBJLoader.js"></script> 
+    <script src="./lib/OrbitControls.js"></script>
+    <script src="./lib/stats.min.js"></script>
+    <script src="./lib/dat.gui.min.js"></script>
+    <script src="./lib/EffectComposer.js"></script>
+    <script src="./lib/RenderPass.js"></script>
+    <script src="./lib/UnrealBloomPass.js"></script>
+    <script src="./lib/LuminosityHighPassShader.js"></script>
+    <script src="./lib/CopyShader.js"></script>
+    <script src="./lib/ShaderPass.js"></script>
+    <script src="./libs/index.js"></script>
+    <script src="./index.js"></script>
+    <style>
+        .maina {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            overflow: hidden;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+          
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="maina"></div>
+    <script>
+        let _City
+        var GL = new Initialize({
+            id: "#app",
+            animation: function (dalte) {
+                if (_City) {
+                    _City.animation(dalte)
+                }
+            },
+            load({ scene, camera, DragMeshs }) {
+                var option = {
+                    radius: 10,
+                    rotation: Math.PI / 2 * 1.9
+                }
+                //灯光
+                var light = new THREE.AmbientLight(0xffffff); // soft white light
+                scene.add(light);
+                var spotLight = new THREE.SpotLight(0xffffff);
+                spotLight.position.set(20, 30, 10);
+                spotLight.angle = 2.05;
+                spotLight.distance = 200;
+                scene.add(spotLight);
+                //地球
+                var geometry = new THREE.SphereGeometry(option.radius, 64, 64);
+                var material = new THREE.MeshPhongMaterial({
+                    color: 0xccccccc,
+
+                    bumpScale: 0.3,
+                    // blending: THREE.AdditiveBlending,
+                });
+                var sphere = new THREE.Mesh(geometry, material);
+                // scene.add(sphere);
+                sphere.rotation.y = option.rotation;
+                _City = new initCity(scene);
+            }
+        })
+    </script>
+</body>
+
+</html>
