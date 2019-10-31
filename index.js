@@ -60,6 +60,7 @@ function initCity(scene) {
             let size = 0.3;
             object.scale.set(size, size, size)
             scene.add(object);
+            object.name = "city";
         });
 
     }

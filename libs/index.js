@@ -8,7 +8,7 @@ function Initialize(opt) {
     var transformControls;
     var DragMeshs = [];
     var currMesh = null;
-    var composer; 
+    var composer;
     var renderScene;
     var bloomPass;
     thm.isDrag = true;
@@ -18,7 +18,10 @@ function Initialize(opt) {
         bloomThreshold: 0,
         bloomRadius: 0
     };
-    
+    var _cs = {
+        color: "#5588aa",
+        tcolor: "#ff9800"
+    }
     function init() {
         camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.set(0, 80, 50);
@@ -50,11 +53,11 @@ function Initialize(opt) {
         bloomPass.strength = params.bloomStrength;
         bloomPass.radius = params.bloomRadius;
 
-        
+
         composer = new THREE.EffectComposer(renderer);
         composer.addPass(renderScene);
-        composer.addPass(bloomPass); 
- 
+        composer.addPass(bloomPass);
+
 
         df_Width = window.innerWidth;
         df_Height = window.innerHeight;
@@ -180,6 +183,17 @@ function Initialize(opt) {
     guiAdd.add(params, 'bloomRadius', 0.0, 1.0).step(0.01).onChange(function (value) {
         bloomPass.radius = Number(value);
     });
+    guiAdd.addColor(_cs, 'color').onChange(function (value) {
+        let city = scene.children.filter(elem => elem.name == "city")[0];
+        city.children[0].material.uniforms.u_color.value = new THREE.Color(value);
+    });
+    guiAdd.addColor(_cs, 'tcolor').onChange(function (value) {
+        let city = scene.children.filter(elem => elem.name == "city")[0];
+        city.children[0].material.uniforms.u_tcolor.value = new THREE.Color(value);
+    });
+
+
+
     function onDocumentMouse(event) {
         event.preventDefault();
         df_Mouse.x = ((event.clientX - df_canvas.getBoundingClientRect().left) / df_canvas.offsetWidth) * 2 - 1;
